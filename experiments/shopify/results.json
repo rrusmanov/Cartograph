@@ -1,0 +1,82 @@
+{
+  "input": "out\\shopify.json",
+  "connectivity": {
+    "hosts": 314,
+    "total_nodes": 6554,
+    "typed_edges": {
+      "has_endpoint": 982,
+      "has_subdomain": 311,
+      "part_of_asn": 4,
+      "registered_by": 1,
+      "resolves_to": 60,
+      "shares_cert": 6127
+    },
+    "total_edges": 7485,
+    "shared_cert_clusters": 23,
+    "takeover_candidates": 2
+  },
+  "prioritization": {
+    "base_rate": 0.0478,
+    "interesting_hosts": 15,
+    "total_hosts": 314,
+    "precision_at_k": {
+      "5": 1.0,
+      "10": 1.0,
+      "20": 0.75,
+      "50": 0.3,
+      "100": 0.15
+    },
+    "lift_at_k": {
+      "5": 20.93,
+      "10": 20.93,
+      "20": 15.7,
+      "50": 6.28,
+      "100": 3.14
+    }
+  },
+  "determinism": {
+    "deterministic": true
+  },
+  "ablation": {
+    "asn": {
+      "hosts_before": 314,
+      "hosts_after": 314,
+      "hosts_lost": 0,
+      "edges_before": 7485,
+      "edges_after": 7481,
+      "edges_lost": 4
+    },
+    "ct": {
+      "hosts_before": 314,
+      "hosts_after": 42,
+      "hosts_lost": 272,
+      "edges_before": 7485,
+      "edges_after": 1047,
+      "edges_lost": 6438
+    },
+    "doh": {
+      "hosts_before": 314,
+      "hosts_after": 312,
+      "hosts_lost": 2,
+      "edges_before": 7485,
+      "edges_after": 7425,
+      "edges_lost": 60
+    },
+    "rdap": {
+      "hosts_before": 314,
+      "hosts_after": 314,
+      "hosts_lost": 0,
+      "edges_before": 7485,
+      "edges_after": 7484,
+      "edges_lost": 1
+    },
+    "wayback": {
+      "hosts_before": 314,
+      "hosts_after": 314,
+      "hosts_lost": 0,
+      "edges_before": 7485,
+      "edges_after": 6503,
+      "edges_lost": 982
+    }
+  }
+}

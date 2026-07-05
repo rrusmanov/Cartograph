@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# Tooling
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Cartograph runtime artifacts (may contain third-party recon data — never commit)
+.cache/
+*.cartograph.json
+*.graphml
+out/
+snapshots/*.raw.json
+
+# Secrets & credentials (no keys are used today; keep it that way in the repo)
+.env
+.env.*
+*.key
+*.pem
+*.p12
+secrets.*
+scope.yml
+scope.yaml
+
+# Internal planning doc — kept local, not published
+PRD_GraphAttackSurface.md
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp

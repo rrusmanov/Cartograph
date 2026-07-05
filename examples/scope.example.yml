@@ -1,0 +1,13 @@
+# Scope allowlist for ACTIVE operations (opt-in, M6).
+#
+# Passive collection never consults this file — it only reads public data sources.
+# Active liveness checks (DNS resolve / single HTTP HEAD/GET / TLS read) are refused for any
+# host NOT covered here. List only apex domains you are explicitly AUTHORIZED to test:
+#   - a bug-bounty program's in-scope domains, or
+#   - domains you own.
+#
+# A host is in scope if it equals, or is a subdomain of, any apex listed below.
+
+allow:
+  - example.com          # replace with domains you are authorized to test
+  - test.example.org
