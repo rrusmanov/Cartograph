@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from cartograph.collectors.base import CollectResult, Collector
+from cartograph.collectors.base import Collector, CollectResult
 from cartograph.graph.model import Edge, EdgeType, Node, NodeType
 
 CRTSH_URL = "https://crt.sh/?q=%25.{target}&output=json"

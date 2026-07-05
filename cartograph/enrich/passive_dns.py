@@ -36,9 +36,7 @@ class PassiveDnsEnricher(Enricher):
             try:
                 payload = await self._query(host)
             except Exception as exc:  # noqa: BLE001 - skip one host, keep enriching the rest
-                logger.warning(
-                    "pdns lookup failed for %s: %s: %s", host, type(exc).__name__, exc
-                )
+                logger.warning("pdns lookup failed for %s: %s: %s", host, type(exc).__name__, exc)
                 continue
             apply_dns_records(graph, host, self._records(payload), scope_domains, self.name)
         return EnrichStats(
@@ -60,7 +58,5 @@ class PassiveDnsEnricher(Enricher):
         records: list[DnsRecord] = []
         for rec in data:
             if isinstance(rec, dict):
-                records.append(
-                    DnsRecord(rrtype=str(rec.get("rrtype", "")), answer=str(rec.get("answer", "")))
-                )
+                records.append(DnsRecord(rrtype=str(rec.get("rrtype", "")), answer=str(rec.get("answer", ""))))
         return records

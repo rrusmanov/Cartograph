@@ -48,9 +48,7 @@ def risk_signal_count(node: Node, graph: AssetGraph, ctx: ScoringContext) -> int
     return count
 
 
-def interesting_host_ids(
-    graph: AssetGraph, *, now: datetime | None = None, min_signals: int = 2
-) -> set[str]:
+def interesting_host_ids(graph: AssetGraph, *, now: datetime | None = None, min_signals: int = 2) -> set[str]:
     """Hosts worth urgent triage: those carrying ``min_signals`` or more distinct risk signals.
 
     A single signal (notably expired TLS) is near-universal on a target with a long Certificate

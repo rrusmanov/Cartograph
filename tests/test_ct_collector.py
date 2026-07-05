@@ -57,7 +57,7 @@ def test_parse_filters_out_of_scope_and_emails(tmp_path: Path) -> None:
     result = _collector(tmp_path).parse("example.com", SAMPLE_ROWS)
     values = {n.value for n in result.nodes}
     assert "example.com.evil.test" not in values  # lookalike, not a real subdomain
-    assert "admin@example.com" not in values       # email SAN dropped
+    assert "admin@example.com" not in values  # email SAN dropped
 
 
 def test_parse_flags_wildcard_certificate(tmp_path: Path) -> None:
@@ -89,9 +89,7 @@ def test_root_domain_typed_as_domain_not_subdomain(tmp_path: Path) -> None:
 
 @respx.mock
 async def test_collect_uses_http_then_cache(tmp_path: Path) -> None:
-    route = respx.get(host="crt.sh").mock(
-        return_value=httpx.Response(200, json=SAMPLE_ROWS)
-    )
+    route = respx.get(host="crt.sh").mock(return_value=httpx.Response(200, json=SAMPLE_ROWS))
     collector = _collector(tmp_path)
     try:
         first = await collector.collect("example.com")
@@ -105,9 +103,7 @@ async def test_collect_uses_http_then_cache(tmp_path: Path) -> None:
 
 @respx.mock
 async def test_collect_handles_empty_result(tmp_path: Path) -> None:
-    respx.get(host="crt.sh").mock(
-        return_value=httpx.Response(200, json=[])
-    )
+    respx.get(host="crt.sh").mock(return_value=httpx.Response(200, json=[]))
     collector = _collector(tmp_path)
     try:
         result = await collector.collect("nothing.example")

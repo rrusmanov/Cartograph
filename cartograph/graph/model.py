@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -16,7 +16,7 @@ import networkx as nx
 from pydantic import BaseModel, Field, field_validator
 
 
-class NodeType(str, Enum):
+class NodeType(StrEnum):
     """Semantic type of an attack-surface asset."""
 
     DOMAIN = "domain"
@@ -28,16 +28,16 @@ class NodeType(str, Enum):
     ENDPOINT = "endpoint"
 
 
-class EdgeType(str, Enum):
+class EdgeType(StrEnum):
     """Semantic type of a relationship between two assets."""
 
-    RESOLVES_TO = "resolves_to"           # (sub)domain -> ip
-    PART_OF_ASN = "part_of_asn"           # ip -> asn
-    SHARES_CERT = "shares_cert"           # (sub)domain -> certificate
-    REGISTERED_BY = "registered_by"       # domain -> org
+    RESOLVES_TO = "resolves_to"  # (sub)domain -> ip
+    PART_OF_ASN = "part_of_asn"  # ip -> asn
+    SHARES_CERT = "shares_cert"  # (sub)domain -> certificate
+    REGISTERED_BY = "registered_by"  # domain -> org
     HISTORICALLY_SERVED = "historically_served"  # (sub)domain -> endpoint (from archives)
-    HAS_SUBDOMAIN = "has_subdomain"       # domain -> subdomain
-    HAS_ENDPOINT = "has_endpoint"         # (sub)domain -> endpoint
+    HAS_SUBDOMAIN = "has_subdomain"  # domain -> subdomain
+    HAS_ENDPOINT = "has_endpoint"  # (sub)domain -> endpoint
 
 
 def canonicalize(node_type: NodeType, value: str) -> str:
@@ -134,9 +134,7 @@ class AssetGraph:
 
     def add_edge(self, edge: Edge) -> None:
         if not self._g.has_node(edge.src) or not self._g.has_node(edge.dst):
-            raise KeyError(
-                f"edge {edge.key} references a node not in the graph; add nodes first"
-            )
+            raise KeyError(f"edge {edge.key} references a node not in the graph; add nodes first")
         key = edge.type.value
         if self._g.has_edge(edge.src, edge.dst, key=key):
             data = self._g.edges[edge.src, edge.dst, key]
@@ -162,10 +160,7 @@ class AssetGraph:
         return int(self._g.number_of_nodes())
 
     def nodes(self) -> list[Node]:
-        return [
-            self._node_from_data(nid, data)
-            for nid, data in sorted(self._g.nodes(data=True), key=lambda t: t[0])
-        ]
+        return [self._node_from_data(nid, data) for nid, data in sorted(self._g.nodes(data=True), key=lambda t: t[0])]
 
     def edges(self) -> list[Edge]:
         out = [

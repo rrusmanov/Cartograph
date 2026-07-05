@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from cartograph.evaluation import (
@@ -39,7 +39,7 @@ HERE = Path(__file__).resolve().parent
 
 def run(graph_path: Path) -> dict[str, object]:
     graph = AssetGraph.from_json(graph_path)
-    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    now = datetime.now(UTC).replace(tzinfo=None)
 
     # --- RQ2: prioritization (single `now` shared by ranking and the interesting label) ---
     ranked = [s.node_id for s in score_graph(graph, now=now, write_back=False)]

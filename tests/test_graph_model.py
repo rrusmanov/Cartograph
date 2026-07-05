@@ -35,12 +35,8 @@ def test_empty_value_rejected() -> None:
 
 def test_add_node_merges_sources_and_attrs() -> None:
     g = AssetGraph()
-    g.add_node(
-        Node(type=NodeType.SUBDOMAIN, value="a.example.com", sources={"ct"}, attrs={"x": 1})
-    )
-    g.add_node(
-        Node(type=NodeType.SUBDOMAIN, value="a.example.com", sources={"pdns"}, attrs={"y": 2})
-    )
+    g.add_node(Node(type=NodeType.SUBDOMAIN, value="a.example.com", sources={"ct"}, attrs={"x": 1}))
+    g.add_node(Node(type=NodeType.SUBDOMAIN, value="a.example.com", sources={"pdns"}, attrs={"y": 2}))
     assert len(g) == 1
     node = g.nodes()[0]
     assert node.sources == {"ct", "pdns"}
@@ -61,9 +57,7 @@ def test_add_edge_requires_existing_endpoints() -> None:
     g = AssetGraph()
     g.add_node(Node(type=NodeType.DOMAIN, value="example.com"))
     with pytest.raises(KeyError):
-        g.add_edge(
-            Edge(src="domain:example.com", dst="ip:1.2.3.4", type=EdgeType.RESOLVES_TO)
-        )
+        g.add_edge(Edge(src="domain:example.com", dst="ip:1.2.3.4", type=EdgeType.RESOLVES_TO))
 
 
 def test_roundtrip_json_is_stable() -> None:

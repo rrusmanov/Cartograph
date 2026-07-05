@@ -66,13 +66,17 @@ async def test_pipeline_builds_connected_graph(tmp_path: Path) -> None:
 
     types = {n.type for n in graph.nodes()}
     # every source contributed a node type
-    assert {NodeType.DOMAIN, NodeType.SUBDOMAIN, NodeType.ORG, NodeType.ENDPOINT,
-            NodeType.IP, NodeType.ASN} <= types
+    assert {NodeType.DOMAIN, NodeType.SUBDOMAIN, NodeType.ORG, NodeType.ENDPOINT, NodeType.IP, NodeType.ASN} <= types
 
     etypes = {e.type for e in graph.edges()}
     # connectivity spanning collectors + enrichers
-    assert {EdgeType.HAS_SUBDOMAIN, EdgeType.REGISTERED_BY, EdgeType.HAS_ENDPOINT,
-            EdgeType.RESOLVES_TO, EdgeType.PART_OF_ASN} <= etypes
+    assert {
+        EdgeType.HAS_SUBDOMAIN,
+        EdgeType.REGISTERED_BY,
+        EdgeType.HAS_ENDPOINT,
+        EdgeType.RESOLVES_TO,
+        EdgeType.PART_OF_ASN,
+    } <= etypes
 
 
 @respx.mock

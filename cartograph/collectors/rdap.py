@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from cartograph.collectors.base import CollectResult, Collector
+from cartograph.collectors.base import Collector, CollectResult
 from cartograph.graph.model import Edge, EdgeType, Node, NodeType
 
 RDAP_URL = "https://rdap.org/domain/{domain}"

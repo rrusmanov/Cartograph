@@ -28,6 +28,7 @@ def _host(g: AssetGraph, value: str, **attrs: object) -> Node:
 
 # --- F1 TLS expiry -------------------------------------------------------
 
+
 def test_f1_expired_cert_scores_max() -> None:
     g = AssetGraph()
     host = _host(g, "a.example.com")
@@ -64,6 +65,7 @@ def test_f1_expired_plus_current_cert_scores_zero() -> None:
 
 # --- F2 wildcard ---------------------------------------------------------
 
+
 def test_f2_wildcard_host_entry() -> None:
     g = AssetGraph()
     host = _host(g, "*.example.com", is_wildcard=True)
@@ -82,6 +84,7 @@ def test_f2_covered_by_wildcard_cert() -> None:
 
 
 # --- F3 takeover ---------------------------------------------------------
+
 
 def test_f3_takeover_prone_cname() -> None:
     g = AssetGraph()
@@ -106,6 +109,7 @@ def test_f3_dangling_cname_without_a_record() -> None:
 
 # --- F5 non-prod naming --------------------------------------------------
 
+
 def test_f5_nonprod_token() -> None:
     g = AssetGraph()
     host = _host(g, "staging.example.com")
@@ -121,6 +125,7 @@ def test_f5_prod_host_scores_zero() -> None:
 
 
 # --- F6 orphan / stale ---------------------------------------------------
+
 
 def test_f6_orphan_when_checked_but_host_never_resolves() -> None:
     g = AssetGraph()
@@ -143,6 +148,7 @@ def test_f6_no_signal_when_host_not_checked() -> None:
 
 
 # --- F7 off-primary ASN --------------------------------------------------
+
 
 def test_f7_off_primary_asn() -> None:
     g = AssetGraph()
@@ -171,6 +177,7 @@ def test_f7_off_primary_asn() -> None:
 
 # --- F4 concentration ----------------------------------------------------
 
+
 def test_f4_central_node_scores_above_leaf() -> None:
     g = AssetGraph()
     hub = _host(g, "hub.example.com")
@@ -184,6 +191,7 @@ def test_f4_central_node_scores_above_leaf() -> None:
 
 
 # --- aggregator ----------------------------------------------------------
+
 
 def test_score_is_bounded_and_ranked() -> None:
     g = AssetGraph()
@@ -214,7 +222,7 @@ def test_score_contributions_sum_to_exposure() -> None:
 
 def test_score_writes_back_attrs_and_is_deterministic() -> None:
     g = AssetGraph()
-    host = _host(g, "dev.example.com")
+    _host(g, "dev.example.com")
     s1 = score_graph(g, now=NOW)
     node = next(n for n in g.nodes() if n.value == "dev.example.com")
     assert "exposure" in node.attrs

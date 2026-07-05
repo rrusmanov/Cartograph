@@ -68,30 +68,20 @@ async def run_scan(domain: str, opts: ScanOptions | None = None) -> ScanResult:
     collectors = build_collectors(config)
     enrichers = build_enrichers(config)
     try:
-        graph = await asyncio.wait_for(
-            run_pipeline(domain, collectors, enrichers, config), timeout=opts.timeout
-        )
+        graph = await asyncio.wait_for(run_pipeline(domain, collectors, enrichers, config), timeout=opts.timeout)
     finally:
         await asyncio.gather(*(f.aclose() for f in [*collectors, *enrichers]))
 
     if opts.score:
         scores = score_graph(graph)
         top: list[dict[str, object]] = [
-            {"score": s.exposure, "host": s.host, "reasons": s.reasons[:4]}
-            for s in scores
-            if s.exposure > 0
+            {"score": s.exposure, "host": s.host, "reasons": s.reasons[:4]} for s in scores if s.exposure > 0
         ][:25]
     else:
         top = []
 
-    takeover = [
-        {"host": c.host, "cname": c.cname, "provider": c.provider}
-        for c in takeover_candidates(graph)
-    ]
-    clusters = [
-        {"size": c.size, "hosts": c.hosts[:8]}
-        for c in shared_infrastructure_clusters(graph)
-    ][:15]
+    takeover = [{"host": c.host, "cname": c.cname, "provider": c.provider} for c in takeover_candidates(graph)]
+    clusters = [{"size": c.size, "hosts": c.hosts[:8]} for c in shared_infrastructure_clusters(graph)][:15]
 
     graph_html, node_count = build_html(graph, include_endpoints=opts.include_endpoints)
 

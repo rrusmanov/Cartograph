@@ -1,6 +1,6 @@
 # Cartograph: Graph-Based Passive Attack-Surface Intelligence with Transparent Exposure Scoring
 
-**Author:** kaiser · **Date:** 2026-07-05 · **Artifact:** <https://github.com/kaiser/cartograph>
+**Author:** rrusmanov · **Date:** 2026-07-05 · **Artifact:** <https://github.com/rrusmanov/Cartograph>
 
 ## Abstract
 

@@ -12,9 +12,7 @@ from cartograph.analysis.takeover import TakeoverCandidate
 from cartograph.scoring.model import ExposureScore
 
 
-def render_top_exposed(
-    scores: list[ExposureScore], *, top: int = 15, console: Console | None = None
-) -> None:
+def render_top_exposed(scores: list[ExposureScore], *, top: int = 15, console: Console | None = None) -> None:
     console = console or Console()
     ranked = [s for s in scores if s.exposure > 0][:top]
     if not ranked:
@@ -80,10 +78,12 @@ def render_diff(diff: GraphDiff, *, console: Console | None = None) -> None:
     if diff.is_empty:
         console.print("[green]No changes between snapshots.[/green]")
         return
-    console.print(f"[bold green]+{len(diff.added_nodes)}[/bold green] nodes, "
-                  f"[bold red]-{len(diff.removed_nodes)}[/bold red] nodes, "
-                  f"[bold green]+{len(diff.added_edges)}[/bold green] edges, "
-                  f"[bold red]-{len(diff.removed_edges)}[/bold red] edges")
+    console.print(
+        f"[bold green]+{len(diff.added_nodes)}[/bold green] nodes, "
+        f"[bold red]-{len(diff.removed_nodes)}[/bold red] nodes, "
+        f"[bold green]+{len(diff.added_edges)}[/bold green] edges, "
+        f"[bold red]-{len(diff.removed_edges)}[/bold red] edges"
+    )
     for nid in diff.added_nodes[:30]:
         console.print(f"  [green]+[/green] {nid}")
     for nid in diff.removed_nodes[:30]:

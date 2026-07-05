@@ -83,8 +83,8 @@ def test_render_html_writes_self_contained_file(tmp_path: Path) -> None:
     drawn = render_html(_build(), out)
     assert out.exists()
     text = out.read_text(encoding="utf-8")
-    assert "<canvas" in text              # self-contained canvas renderer
-    assert "<script src" not in text      # no external CDN dependency
-    assert "a.example.com" in text        # embeds node data
-    assert 'id="info"' in text            # has the click-info panel
+    assert "<canvas" in text  # self-contained canvas renderer
+    assert "<script src" not in text  # no external CDN dependency
+    assert "a.example.com" in text  # embeds node data
+    assert 'id="info"' in text  # has the click-info panel
     assert drawn > 0

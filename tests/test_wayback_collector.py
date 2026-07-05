@@ -13,7 +13,7 @@ CDX_ROWS = [
     ["http://a.example.com/login"],
     ["https://example.com/"],
     ["http://a.example.com/login"],  # duplicate -> collapsed
-    ["http://evil.test/phish"],      # out of scope
+    ["http://evil.test/phish"],  # out of scope
 ]
 
 

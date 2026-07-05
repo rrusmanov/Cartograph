@@ -6,6 +6,7 @@ org's main ASN. RIPEstat (stat.ripe.net) is public and key-free; the base URL is
 
 from __future__ import annotations
 
+import contextlib
 import logging
 from typing import Any
 
@@ -34,9 +35,7 @@ class AsnEnricher(Enricher):
             try:
                 payload = await self._query(ip)
             except Exception as exc:  # noqa: BLE001 - skip one IP, keep enriching the rest
-                logger.warning(
-                    "asn lookup failed for %s: %s: %s", ip, type(exc).__name__, exc
-                )
+                logger.warning("asn lookup failed for %s: %s: %s", ip, type(exc).__name__, exc)
                 continue
             info = self._parse(payload)
             if info is not None:
@@ -79,7 +78,7 @@ class AsnEnricher(Enricher):
         )
         graph.add_node(asn_node)
         ip_id = Node(type=NodeType.IP, value=ip).id
-        try:
+        with contextlib.suppress(KeyError):
             graph.add_edge(
                 Edge(
                     src=ip_id,
@@ -89,5 +88,3 @@ class AsnEnricher(Enricher):
                     attrs={"prefix": info.get("prefix")},
                 )
             )
-        except KeyError:
-            pass

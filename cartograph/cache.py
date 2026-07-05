@@ -28,6 +28,4 @@ class ResponseCache:
         return json.loads(path.read_text(encoding="utf-8"))
 
     def set(self, namespace: str, key: str, value: Any) -> None:
-        self._path(namespace, key).write_text(
-            json.dumps(value, ensure_ascii=False), encoding="utf-8"
-        )
+        self._path(namespace, key).write_text(json.dumps(value, ensure_ascii=False), encoding="utf-8")

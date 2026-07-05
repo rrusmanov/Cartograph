@@ -46,9 +46,7 @@ class ScopeGuard:
                 "listing only targets you are authorized to test."
             )
         if not self.is_allowed(host):
-            raise ScopeViolation(
-                f"'{host}' is not covered by the scope allowlist; refusing active operation."
-            )
+            raise ScopeViolation(f"'{host}' is not covered by the scope allowlist; refusing active operation.")
 
 
 @dataclass

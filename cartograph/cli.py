@@ -60,9 +60,7 @@ def collect(
         help="Where to write the graph JSON.",
     ),
     cache_dir: str = typer.Option(".cache", help="Directory for the response cache."),
-    min_interval: float = typer.Option(
-        1.0, help="Minimum seconds between live requests (rate-limit politeness)."
-    ),
+    min_interval: float = typer.Option(1.0, help="Minimum seconds between live requests (rate-limit politeness)."),
     graphml: bool = typer.Option(False, "--graphml", help="Also export a .graphml file."),
     ct: bool = typer.Option(True, help="Certificate Transparency collector."),
     rdap: bool = typer.Option(True, help="RDAP registration-data collector."),
@@ -114,9 +112,7 @@ def collect(
         console.print(f"[green]Wrote[/green] {gpath}")
 
     for name, stats in config.enrich_stats.items():
-        console.print(
-            f"[dim]enrich[/dim] {name}: +{stats.nodes_added} nodes, +{stats.edges_added} edges"
-        )
+        console.print(f"[dim]enrich[/dim] {name}: +{stats.nodes_added} nodes, +{stats.edges_added} edges")
 
     if score:
         render_top_exposed(exposure, console=console)
@@ -206,9 +202,7 @@ def visualize(
 ) -> None:
     """Render an interactive HTML visualization of a saved graph (score it first for color-coding)."""
     graph = _load_graph(path)
-    drawn = render_html(
-        graph, out, include_endpoints=endpoints, all_certs=all_certs, max_nodes=max_nodes
-    )
+    drawn = render_html(graph, out, include_endpoints=endpoints, all_certs=all_certs, max_nodes=max_nodes)
     console.print(f"[green]Wrote[/green] {out}  ({drawn} nodes drawn)")
 
 

@@ -43,7 +43,10 @@ class DohResolverEnricher(Enricher):
                 except Exception as exc:  # noqa: BLE001 - skip, keep resolving the rest
                     logger.warning(
                         "doh lookup failed for %s/%s: %s: %s",
-                        host, qtype, type(exc).__name__, exc,
+                        host,
+                        qtype,
+                        type(exc).__name__,
+                        exc,
                     )
                     continue
                 records.extend(self._records(payload))
@@ -56,9 +59,7 @@ class DohResolverEnricher(Enricher):
 
     async def _query(self, host: str, qtype: str) -> Any:
         url = f"{self.base_url}?name={host}&type={qtype}"
-        return await self.get_json(
-            url, cache_key=f"doh:{qtype}:{host}", allow_status=(400, 404), headers=_DNS_JSON
-        )
+        return await self.get_json(url, cache_key=f"doh:{qtype}:{host}", allow_status=(400, 404), headers=_DNS_JSON)
 
     @staticmethod
     def _records(payload: Any) -> list[DnsRecord]:

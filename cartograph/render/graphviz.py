@@ -74,11 +74,13 @@ def select_visible(
     shared_certs = _shared_cert_ids(graph)
     keep: list[Node] = []
     for n in graph.nodes():
-        if n.type in (NodeType.DOMAIN, NodeType.SUBDOMAIN, NodeType.IP, NodeType.ASN, NodeType.ORG):
-            keep.append(n)
-        elif n.type is NodeType.CERTIFICATE and (all_certs or n.id in shared_certs):
-            keep.append(n)
-        elif n.type is NodeType.ENDPOINT and include_endpoints:
+        if (
+            n.type in (NodeType.DOMAIN, NodeType.SUBDOMAIN, NodeType.IP, NodeType.ASN, NodeType.ORG)
+            or n.type is NodeType.CERTIFICATE
+            and (all_certs or n.id in shared_certs)
+            or n.type is NodeType.ENDPOINT
+            and include_endpoints
+        ):
             keep.append(n)
 
     if len(keep) <= max_nodes:
@@ -227,9 +229,7 @@ def build_html(
     The layout is precomputed with networkx; the page draws it on a native canvas with pan/zoom and a
     click-to-inspect panel. No external libraries. Hosts are colored by exposure.
     """
-    visible = select_visible(
-        graph, include_endpoints=include_endpoints, all_certs=all_certs, max_nodes=max_nodes
-    )
+    visible = select_visible(graph, include_endpoints=include_endpoints, all_certs=all_certs, max_nodes=max_nodes)
     nodes = {n.id: n for n in graph.nodes() if n.id in visible}
     edges = [(e.src, e.dst) for e in graph.edges() if e.src in visible and e.dst in visible]
 
@@ -278,9 +278,7 @@ def render_html(
     max_nodes: int = 1500,
 ) -> int:
     """Write the interactive graph HTML to ``path``. Returns the node count drawn."""
-    html, count = build_html(
-        graph, include_endpoints=include_endpoints, all_certs=all_certs, max_nodes=max_nodes
-    )
+    html, count = build_html(graph, include_endpoints=include_endpoints, all_certs=all_certs, max_nodes=max_nodes)
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(html, encoding="utf-8")

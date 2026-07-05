@@ -38,9 +38,7 @@ def centrality_ranking(graph: AssetGraph, *, top: int = 15) -> list[CentralityEn
         return []
 
     degree = nx.degree_centrality(ug)
-    betweenness = (
-        nx.betweenness_centrality(ug) if ug.number_of_nodes() > 2 else dict.fromkeys(ug.nodes(), 0.0)
-    )
+    betweenness = nx.betweenness_centrality(ug) if ug.number_of_nodes() > 2 else dict.fromkeys(ug.nodes(), 0.0)
     nodes = {n.id: n for n in graph.nodes()}
 
     entries = [

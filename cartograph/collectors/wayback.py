@@ -9,13 +9,10 @@ from __future__ import annotations
 from typing import Any
 from urllib.parse import urlsplit
 
-from cartograph.collectors.base import CollectResult, Collector
+from cartograph.collectors.base import Collector, CollectResult
 from cartograph.graph.model import Edge, EdgeType, Node, NodeType
 
-CDX_URL = (
-    "http://web.archive.org/cdx/search/cdx"
-    "?url=*.{domain}/*&output=json&fl=original&collapse=urlkey&limit={limit}"
-)
+CDX_URL = "http://web.archive.org/cdx/search/cdx?url=*.{domain}/*&output=json&fl=original&collapse=urlkey&limit={limit}"
 
 
 class WaybackCollector(Collector):

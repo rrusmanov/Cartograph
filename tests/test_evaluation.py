@@ -32,9 +32,7 @@ def _graph_with_signals() -> AssetGraph:
     g.add_node(staging)
     _expired_cert(g, staging, "staging")
     # 2 signals: non-prod naming + takeover CNAME -> interesting
-    g.add_node(
-        Node(type=NodeType.SUBDOMAIN, value="dev.example.com", attrs={"external_cnames": ["x.herokuapp.com"]})
-    )
+    g.add_node(Node(type=NodeType.SUBDOMAIN, value="dev.example.com", attrs={"external_cnames": ["x.herokuapp.com"]}))
     # 1 signal: expired TLS only -> NOT interesting
     cdn = Node(type=NodeType.SUBDOMAIN, value="cdn.example.com")
     g.add_node(cdn)
@@ -48,9 +46,9 @@ def test_interesting_requires_two_signals() -> None:
     g = _graph_with_signals()
     interesting = interesting_host_ids(g, now=NOW)
     assert "subdomain:staging.example.com" in interesting  # nonprod + expired TLS
-    assert "subdomain:dev.example.com" in interesting       # nonprod + takeover
-    assert "subdomain:cdn.example.com" not in interesting   # only expired TLS
-    assert "subdomain:www.example.com" not in interesting   # clean
+    assert "subdomain:dev.example.com" in interesting  # nonprod + takeover
+    assert "subdomain:cdn.example.com" not in interesting  # only expired TLS
+    assert "subdomain:www.example.com" not in interesting  # clean
 
 
 def test_base_rate() -> None:
@@ -70,7 +68,7 @@ def test_precision_at_k_perfect_ranking() -> None:
 def test_lift_is_precision_over_base_rate() -> None:
     interesting = {"a", "b"}
     all_hosts = ["a", "b", "c", "d"]  # base rate 0.5
-    ranked = ["a", "b", "c", "d"]     # precision@2 = 1.0
+    ranked = ["a", "b", "c", "d"]  # precision@2 = 1.0
     assert lift_at_k(ranked, interesting, all_hosts, 2) == 2.0
 
 

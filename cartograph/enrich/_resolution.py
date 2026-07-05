@@ -7,6 +7,7 @@ checked is marked ``resolution_checked`` so the orphan feature can tell "no addr
 
 from __future__ import annotations
 
+import contextlib
 from dataclasses import dataclass
 
 from cartograph.graph.model import AssetGraph, Edge, EdgeType, Node, NodeType
@@ -100,7 +101,5 @@ def resolvable_hosts(graph: AssetGraph, limit: int) -> list[str]:
 
 
 def _add_edge(graph: AssetGraph, edge: Edge) -> None:
-    try:
+    with contextlib.suppress(KeyError):
         graph.add_edge(edge)
-    except KeyError:
-        pass

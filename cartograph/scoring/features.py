@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import networkx as nx
 
@@ -19,9 +19,31 @@ from cartograph.graph.model import AssetGraph, EdgeType, Node, NodeType
 # hostname labels that indicate non-production / higher-value assets
 NONPROD_TOKENS: frozenset[str] = frozenset(
     {
-        "dev", "development", "staging", "stage", "test", "testing", "uat", "qa",
-        "preprod", "pre", "sandbox", "sbx", "demo", "internal", "int", "intranet",
-        "admin", "jenkins", "gitlab", "jira", "vpn", "beta", "old", "legacy", "backup",
+        "dev",
+        "development",
+        "staging",
+        "stage",
+        "test",
+        "testing",
+        "uat",
+        "qa",
+        "preprod",
+        "pre",
+        "sandbox",
+        "sbx",
+        "demo",
+        "internal",
+        "int",
+        "intranet",
+        "admin",
+        "jenkins",
+        "gitlab",
+        "jira",
+        "vpn",
+        "beta",
+        "old",
+        "legacy",
+        "backup",
     }
 )
 
@@ -51,7 +73,7 @@ class ScoringContext:
 
 def build_context(graph: AssetGraph, now: datetime | None = None) -> ScoringContext:
     """Precompute everything the feature functions need from the graph (deterministic)."""
-    now = now or datetime.now(timezone.utc).replace(tzinfo=None)
+    now = now or datetime.now(UTC).replace(tzinfo=None)
 
     nodes_by_id = {n.id: n for n in graph.nodes()}
     host_certs: dict[str, list[Node]] = {}
@@ -103,6 +125,7 @@ def _degree_centrality(graph: AssetGraph) -> dict[str, float]:
 
 
 # --- features ------------------------------------------------------------
+
 
 def f_tls_expiry(node: Node, graph: AssetGraph, ctx: ScoringContext) -> FeatureScore:
     """F1: the host has no *current* valid TLS – its freshest certificate is expired or expiring.
@@ -218,5 +241,5 @@ def _parse_dt(value: object) -> datetime | None:
     except ValueError:
         return None
     if dt.tzinfo is not None:
-        dt = dt.astimezone(timezone.utc).replace(tzinfo=None)
+        dt = dt.astimezone(UTC).replace(tzinfo=None)
     return dt

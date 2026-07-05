@@ -66,7 +66,7 @@ passive DNS доступен через `--pdns` (его бесплатный т
 
 ```bash
 git clone https://github.com/rrusmanov/Cartograph.git
-cd cartograph
+cd Cartograph
 pip install -e ".[dev]"
 
 # Пассивно построить карту поверхности атаки и ранжировать активы по exposure

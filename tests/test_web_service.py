@@ -20,9 +20,7 @@ CT_ROWS: list[dict[str, Any]] = [
         "not_after": "2020-01-01T00:00:00",
     }
 ]
-RDAP_PAYLOAD = {
-    "entities": [{"roles": ["registrant"], "vcardArray": ["vcard", [["org", {}, "text", "Example Org"]]]}]
-}
+RDAP_PAYLOAD = {"entities": [{"roles": ["registrant"], "vcardArray": ["vcard", [["org", {}, "text", "Example Org"]]]}]}
 CDX_ROWS = [["original"], ["https://www.example.com/app"]]
 DOH_PAYLOAD = {"Status": 0, "Answer": [{"name": "www.example.com", "type": 1, "data": "93.184.216.34"}]}
 RIPESTAT_PAYLOAD = {"status": "ok", "data": {"resource": "93.184.216.0/24", "asns": [{"asn": 15133}]}}
@@ -58,7 +56,7 @@ async def test_run_scan_assembles_result(tmp_path: Path) -> None:
 
     assert result.domain == "example.com"
     assert result.node_count > 0
-    assert "<canvas" in result.graph_html          # embedded interactive graph
-    assert "example.com" in result.graph_json       # serialized graph
-    assert len(result.top) > 0                       # expired certs -> scored hosts
+    assert "<canvas" in result.graph_html  # embedded interactive graph
+    assert "example.com" in result.graph_json  # serialized graph
+    assert len(result.top) > 0  # expired certs -> scored hosts
     assert all({"score", "host", "reasons"} <= set(row) for row in result.top)

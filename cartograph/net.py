@@ -9,7 +9,6 @@ import httpx
 
 from cartograph.cache import ResponseCache
 
-
 #: transient HTTP statuses worth retrying (rate-limit + gateway/backend errors)
 RETRYABLE_STATUS: tuple[int, ...] = (429, 502, 503, 504)
 
@@ -86,9 +85,7 @@ class AsyncFetcher:
         self.cache.set(self.name, key, data)
         return data
 
-    async def _get_with_retry(
-        self, url: str, *, headers: dict[str, str] | None = None
-    ) -> httpx.Response:
+    async def _get_with_retry(self, url: str, *, headers: dict[str, str] | None = None) -> httpx.Response:
         """GET with retries on timeouts and transient server statuses (429/502/503/504).
 
         These are the failures that clear on their own (a slow or briefly-overloaded public API –

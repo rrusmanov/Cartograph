@@ -19,9 +19,7 @@ async def test_retries_on_transient_502_then_succeeds(tmp_path: Path) -> None:
             httpx.Response(200, json=[{"id": 1, "name_value": "a.example.com"}]),
         ]
     )
-    collector = CertificateTransparencyCollector(
-        cache=ResponseCache(tmp_path / "c"), min_interval=0.0, backoff=0.0
-    )
+    collector = CertificateTransparencyCollector(cache=ResponseCache(tmp_path / "c"), min_interval=0.0, backoff=0.0)
     try:
         result = await collector.collect("example.com")
     finally:

@@ -42,9 +42,7 @@ class Enricher(AsyncFetcher, ABC):
         min_interval: float = 1.0,
         timeout: float = 20.0,
     ) -> None:
-        super().__init__(
-            client=client, cache=cache, min_interval=min_interval, timeout=timeout
-        )
+        super().__init__(client=client, cache=cache, min_interval=min_interval, timeout=timeout)
         self.max_targets = max_targets
 
     @abstractmethod

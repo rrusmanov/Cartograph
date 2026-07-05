@@ -46,9 +46,7 @@ def _seed_hosts() -> AssetGraph:
 
 @respx.mock
 async def test_passive_dns_adds_ip_and_resolves_edges(tmp_path: Path) -> None:
-    respx.get(host="api.mnemonic.no").mock(
-        return_value=httpx.Response(200, json=PDNS_PAYLOAD)
-    )
+    respx.get(host="api.mnemonic.no").mock(return_value=httpx.Response(200, json=PDNS_PAYLOAD))
     graph = _seed_hosts()
     enricher = PassiveDnsEnricher(cache=ResponseCache(tmp_path / "c"), min_interval=0.0)
     try:
@@ -65,13 +63,9 @@ async def test_passive_dns_adds_ip_and_resolves_edges(tmp_path: Path) -> None:
 
 @respx.mock
 async def test_passive_dns_respects_max_targets(tmp_path: Path) -> None:
-    route = respx.get(host="api.mnemonic.no").mock(
-        return_value=httpx.Response(200, json={"data": []})
-    )
+    route = respx.get(host="api.mnemonic.no").mock(return_value=httpx.Response(200, json={"data": []}))
     graph = _seed_hosts()
-    enricher = PassiveDnsEnricher(
-        cache=ResponseCache(tmp_path / "c"), min_interval=0.0, max_targets=1
-    )
+    enricher = PassiveDnsEnricher(cache=ResponseCache(tmp_path / "c"), min_interval=0.0, max_targets=1)
     try:
         await enricher.enrich(graph)
     finally:
@@ -81,9 +75,7 @@ async def test_passive_dns_respects_max_targets(tmp_path: Path) -> None:
 
 @respx.mock
 async def test_doh_resolver_adds_ip_and_marks_checked(tmp_path: Path) -> None:
-    respx.get(host="cloudflare-dns.com").mock(
-        return_value=httpx.Response(200, json=DOH_PAYLOAD)
-    )
+    respx.get(host="cloudflare-dns.com").mock(return_value=httpx.Response(200, json=DOH_PAYLOAD))
     graph = _seed_hosts()
     enricher = DohResolverEnricher(cache=ResponseCache(tmp_path / "c"), min_interval=0.0)
     try:
@@ -102,9 +94,7 @@ async def test_doh_resolver_adds_ip_and_marks_checked(tmp_path: Path) -> None:
 
 @respx.mock
 async def test_asn_enricher_adds_asn_node_and_edge(tmp_path: Path) -> None:
-    respx.get(host="stat.ripe.net").mock(
-        return_value=httpx.Response(200, json=RIPESTAT_PAYLOAD)
-    )
+    respx.get(host="stat.ripe.net").mock(return_value=httpx.Response(200, json=RIPESTAT_PAYLOAD))
     graph = AssetGraph()
     graph.add_node(Node(type=NodeType.IP, value="93.184.216.34", sources={"pdns"}))
     enricher = AsnEnricher(cache=ResponseCache(tmp_path / "c"), min_interval=0.0)
@@ -121,9 +111,7 @@ async def test_asn_enricher_adds_asn_node_and_edge(tmp_path: Path) -> None:
 
 @respx.mock
 async def test_asn_enricher_stores_holder_and_prefix(tmp_path: Path) -> None:
-    respx.get(host="stat.ripe.net").mock(
-        return_value=httpx.Response(200, json=RIPESTAT_PAYLOAD)
-    )
+    respx.get(host="stat.ripe.net").mock(return_value=httpx.Response(200, json=RIPESTAT_PAYLOAD))
     graph = AssetGraph()
     graph.add_node(Node(type=NodeType.IP, value="93.184.216.34"))
     enricher = AsnEnricher(cache=ResponseCache(tmp_path / "c"), min_interval=0.0)
@@ -139,9 +127,7 @@ async def test_asn_enricher_stores_holder_and_prefix(tmp_path: Path) -> None:
 
 @respx.mock
 async def test_asn_enricher_handles_empty_payload(tmp_path: Path) -> None:
-    respx.get(host="stat.ripe.net").mock(
-        return_value=httpx.Response(200, json={"status": "ok", "data": {"asns": []}})
-    )
+    respx.get(host="stat.ripe.net").mock(return_value=httpx.Response(200, json={"status": "ok", "data": {"asns": []}}))
     graph = AssetGraph()
     graph.add_node(Node(type=NodeType.IP, value="1.2.3.4"))
     enricher = AsnEnricher(cache=ResponseCache(tmp_path / "c"), min_interval=0.0)
